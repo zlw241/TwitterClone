@@ -1,0 +1,10 @@
+
+<ul>
+<% @tweets.each do |tweet| %>
+
+  <li>
+    <a href="<%= user_url(tweet.user) %>"><%= tweet.user.username %></a><br>
+    <%= tweet.body %>
+  </li>
+<% end %>
+</ul>

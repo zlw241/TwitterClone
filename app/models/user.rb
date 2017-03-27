@@ -10,6 +10,7 @@
 #  updated_at      :datetime         not null
 #
 
+
 class User < ActiveRecord::Base
   attr_reader :password
 
@@ -21,11 +22,19 @@ class User < ActiveRecord::Base
 
   has_many :followings,
     class_name: "Follower",
-    foreign_key: :user_id,
+    foreign_key: :user_id
 
   has_many :followers,
     through: :followings,
     source: :follower
+
+  has_many :follows,
+    class_name: "Follower",
+    foreign_key: :follower_id
+
+  has_many :users_followed,
+    through: :follows,
+    source: :user
 
   has_many :tweets,
     class_name: "Tweet",
@@ -35,6 +44,9 @@ class User < ActiveRecord::Base
     class_name: "Retweet",
     foreign_key: :user_id
 
+  def timeline
+    all_tweets = self.users_followed.includes(:tweets)
+  end
 
   def self.generate_session_token
     SecureRandom.urlsafe_base64(16)
@@ -42,13 +54,13 @@ class User < ActiveRecord::Base
 
   def reset_session_token!
     self.session_token = User.generate_session_token
-    self.save
+    self.save!
     self.session_token
   end
 
   def password=(password)
     @password = password
-    self.password_digest = BCrypt::Password.create(@password)
+    self.password_digest = BCrypt::Password.create(password)
   end
 
   def valid_password?(password)

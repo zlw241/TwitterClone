@@ -5,10 +5,40 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <style>
+    .nav {
+      float: right;
+    }
+    .nav-item {
+      display: inline;
+    }
+    .nav-item > a {
+      text-decoration: none;
+    }
+  </style>
 </head>
-<body>
 
-<%= yield %>
+<body>
+  <% if current_user %>
+    <a href="<%= new_user_tweet_url(current_user) %>">Compose Tweet</a>
+  <% end %>
+  
+  <ul class="nav">
+    <% if current_user %>
+      <li class="nav-item"><a href="<%= tweets_url %>">Timeline</a></li>
+      <li class="nav-item"><a href="<%= user_url(current_user) %>">Profile</a></li>
+      <form class="nav-item" action="<%= session_url %>" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input type="submit" value="Log Out">
+      </form>
+    <% else %>
+      <li class="nav-item"><a href="<%= new_session_url %>">Log In</a></li>
+      <li class="nav-item"><a href="<%= new_user_url %>">Sign Up</a></li>
+    <% end %>
+  </ul>
+
+  <%= yield %>
 
 </body>
 </html>

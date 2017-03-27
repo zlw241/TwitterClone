@@ -25,7 +25,7 @@ class Tweet < ActiveRecord::Base
     class_name: "Tweet",
     foreign_key: :reply_id
 
-  has_many :retweets
+  has_many :retweets,
     class_name: "Retweet",
     foreign_key: :tweet_id
 

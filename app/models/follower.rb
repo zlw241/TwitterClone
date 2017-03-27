@@ -12,10 +12,10 @@
 class Follower < ActiveRecord::Base
 
   validates :user_id, :follower_id, presence: true
-  
+
   belongs_to :user,
     class_name: "User",
-    foreign_key: :user_id,
+    foreign_key: :user_id
 
   belongs_to :follower,
     class_name: "User",

@@ -1,0 +1,13 @@
+
+
+<h2>New Tweet</h2>
+<form action="<%= user_tweets_url %>" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <textarea cols="50" rows="10" name="tweet[body]" id="tweet_body"></textarea>
+  </label>
+
+  <br>
+
+  <input type="submit" value="Compose Tweet">
+</form>

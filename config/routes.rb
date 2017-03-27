@@ -54,11 +54,11 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-  resources :tweets, only: [:index]
+  resources :tweets, only: [:index, :show, :destroy, :edit]
   resources :users do
-    resources :followers, only: [:create, :destroy]
-    resources :tweets
+    resources :followers, only: [:create, :destroy, :index]
+    resources :tweets, only: [:create, :new]
   end
 
-
+  resource :session, only: [:create, :new, :destroy]
 end
